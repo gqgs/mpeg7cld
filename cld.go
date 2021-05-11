@@ -34,21 +34,29 @@ func partition(img image.Image) [64][]color.Color {
 	width := img.Bounds().Max.X
 	height := img.Bounds().Max.Y
 
-	partitionWidth := float64(width) / 8
-	partitionHeight := float64(height) / 8
-
-	index := func(x, y int) int {
-		i := math.Floor(float64(y)/partitionHeight) + 8*math.Floor(float64(x)/partitionWidth)
-		return int(i)
+	min := func(a, b int) int {
+		if a <= b {
+			return a
+		}
+		return b
 	}
 
-	for x := 0; x < width; x++ {
-		for y := 0; y < height; y++ {
-			i := index(x, y)
-			blocks[i] = append(blocks[i], img.At(x, y))
+	partitionWidth := int(float64(width) / 8)
+	partitionHeight := int(float64(height) / 8)
+	var x, y, i int
+	for x = 0; x < width; x += partitionWidth {
+		for y = 0; y < height; y += partitionHeight {
+			w := min(partitionWidth, width-x)
+			h := min(partitionHeight, height-y)
+			blocks[i] = make([]color.Color, 0, w*h)
+			for dx := x; dx < x+w; dx++ {
+				for dy := y; dy < y+h; dy++ {
+					blocks[i] = append(blocks[i], img.At(dx, dy))
+				}
+			}
+			i++
 		}
 	}
-
 	return blocks
 }
 
