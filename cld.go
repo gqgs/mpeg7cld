@@ -1,4 +1,4 @@
-package main
+package mpeg7cld
 
 import (
 	"image"
@@ -29,7 +29,6 @@ type YCbCr struct {
 }
 
 func partition(img image.Image) [64][]color.Color {
-	//FIXME: handle dimensions not divisible by 8
 	var blocks [64][]color.Color
 
 	width := img.Bounds().Max.X

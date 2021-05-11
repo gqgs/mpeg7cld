@@ -1,4 +1,4 @@
-package main
+package mpeg7cld
 
 import (
 	"image/jpeg"
