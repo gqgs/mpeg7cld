@@ -44,8 +44,8 @@ func partition(img image.Image) [64][]color.Color {
 	partitionWidth := int(float64(width) / 8)
 	partitionHeight := int(float64(height) / 8)
 	var x, y, i int
-	for x = 0; x < width; x += partitionWidth {
-		for y = 0; y < height; y += partitionHeight {
+	for x = 0; x < partitionWidth*8; x += partitionWidth {
+		for y = 0; y < partitionHeight*8; y += partitionHeight {
 			w := min(partitionWidth, width-x)
 			h := min(partitionHeight, height-y)
 			blocks[i] = make([]color.Color, 0, w*h)
